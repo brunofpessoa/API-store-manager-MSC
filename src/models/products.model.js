@@ -1,28 +1,28 @@
 const connection = require('./connection');
 
 const findAll = async () => {
-  try {
-    const [result] = await connection.execute(
-        'SELECT * FROM products',
-    );
-    return result;
-  } catch (_err) {
-    return undefined;
-  }
+  const [result] = await connection.execute(
+      'SELECT * FROM products',
+  );
+  return result;
 };
 
 const findById = async (productId) => {
-  try {
-    const [[result]] = await connection.execute(
-      'SELECT * FROM products WHERE id = ?', [productId],
-    );
-    return result;
-  } catch (_err) {
-    return undefined;
-  }
+  const [[result]] = await connection.execute(
+    'SELECT * FROM products WHERE id = ?', [productId],
+  );
+  return result;
+};
+
+const insert = async (newProductName) => {
+  const [{ insertId }] = await connection.execute(
+    'INSERT INTO products (name) VALUE (?)', [newProductName],
+  );
+  return insertId;
 };
 
 module.exports = {
   findAll,
   findById,
+  insert,
 };

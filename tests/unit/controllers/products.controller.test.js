@@ -9,7 +9,7 @@ const { productsService } = require('../../../src/services');
 const { productsController } = require('../../../src/controllers');
 const { allProductsMock, productByIdMock } = require('../mocks/products');
 
-describe('Testes do módulo de produtos', function () {
+describe('Testes do controller de produtos', function () {
   afterEach(sinon.restore);
 
   describe('Testes da função listProducts', function () {

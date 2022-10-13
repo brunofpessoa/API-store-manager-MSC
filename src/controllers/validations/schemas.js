@@ -12,6 +12,26 @@ const productsSchema = yup.object().shape({
     })),
 });
 
+const salesSchema = yup.object().shape({
+  productId: yup
+    .number()
+    .required(() => ({
+      httpStatus: 400,
+      message: '"productId" is required',
+    })),
+  quantity: yup
+    .number()
+    .required(() => ({
+      httpStatus: 400,
+      message: '"quantity" is required',
+    }))
+    .min(1, () => ({
+      httpStatus: 422,
+      message: '"quantity" must be greater than or equal to 1',
+    })),
+});
+
 module.exports = {
   productsSchema,
+  salesSchema,
 };

@@ -7,7 +7,7 @@ const { expect } = chai;
 
 const { productsService } = require('../../../src/services');
 const { productsController } = require('../../../src/controllers');
-const { allProductsMock, productByIdMock } = require('../mocks/products');
+const { allProductsMock, productByIdMock, insertedProductMock } = require('../mocks/products');
 
 describe('Testes do controller de produtos', function () {
   afterEach(sinon.restore);
@@ -80,5 +80,62 @@ describe('Testes do controller de produtos', function () {
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith({message});
     })
+  });
+
+  describe('Testes da função registerProduct', function () {
+    it('deve responder o request com status 200 e o produto cadastrado', async function () {
+      const req = { body: { name: 'product x' } };
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, 'addNewProduct')
+        .resolves({ type: null, message: insertedProductMock })
+    
+      await productsController.registerProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(insertedProductMock);
+    });
+
+    it('deve responder com um erro caso o serviço de produtos não funcione', async function () {
+      const message = 'Something went wrong';
+      const req = { body: { name: 'product x' } };
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, 'addNewProduct')
+        .resolves({ type: 'INTERNAL_ERROR', message })
+    
+      await productsController.registerProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(500);
+      expect(res.json).to.have.been.calledWith({ message });
+    });
+
+    it('deve responder o request com status 404 e um erro de validação', async function () {
+      const errorMessage = { message: '"name" is required' }
+      const req = { body: {} };
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await productsController.registerProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(400);
+      expect(res.json).to.have.been.calledWith(errorMessage);
+    });
+
+    it('deve responder o request com status 422 e um erro de validação', async function () {
+      const errorMessage = { message: '"name" length must be at least 5 characters long' }
+      const req = { body: { name: 'shrt'} };
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await productsController.registerProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(422);
+      expect(res.json).to.have.been.calledWith(errorMessage);
+    });
   });
 });

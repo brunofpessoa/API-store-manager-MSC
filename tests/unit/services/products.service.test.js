@@ -3,7 +3,7 @@ const { expect } = require('chai');
 
 const { productsModel } = require('../../../src/models');
 const { productsService } = require('../../../src/services');
-const { allProductsMock, productByIdMock } = require('../mocks/products');
+const { allProductsMock, productByIdMock, insertedProductMock } = require('../mocks/products');
 
 describe('Testes do serviço de produtos', function () { 
   afterEach(sinon.restore);
@@ -43,6 +43,29 @@ describe('Testes do serviço de produtos', function () {
       sinon.stub(productsModel, 'findById').resolves(productByIdMock);
 
       const result = await productsService.getProductById();
+
+      expect(result).to.be.deep.equal(expectedValue);
+    });
+  });
+
+  describe('Testes da função addNewProduct', function () {
+    it('deve retornar um objeto com mensagem de erro', async function () {
+      sinon.stub(productsModel, 'insert').resolves(undefined);
+      const expectedValue = { type: 'INTERNAL_ERROR', message: 'Something went wrong' };
+
+      const result = await productsService.addNewProduct();
+
+      expect(result).to.be.deep.equal(expectedValue);
+    });
+  
+    it('deve retornar corretamento um objeto com o resultado', async function () {
+      const insertIdMock = 9999;
+      const expectedValue = { type: null, message: insertedProductMock };
+      sinon.stub(productsModel, 'insert').resolves(insertIdMock);
+      sinon.stub(productsModel, 'findById').resolves(insertedProductMock);
+
+      const product = { name: 'product x' }
+      const result = await productsService.addNewProduct(product);
 
       expect(result).to.be.deep.equal(expectedValue);
     });

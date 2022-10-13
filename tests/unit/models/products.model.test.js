@@ -24,4 +24,14 @@ describe('Testes do módulo de produtos', function () {
       expect(result).to.be.deep.equal(productByIdMock);
     });
   });
+
+  describe('Testes da função insert', function () {
+    it('deve retornar o insertId', async function () {
+      const insertIdMock = 99999;
+      sinon.stub(connection, 'execute').resolves([{ insertId: insertIdMock }]);
+      const productName = 'product x';
+      const insertId = await productsModel.insert(productName);
+      expect(insertId).to.be.deep.equal(insertIdMock);
+    });
+  });
 });

@@ -14,7 +14,13 @@ const productByIdMock = {
   "name": "Martelo de Thor"
 };
 
+const insertedProductMock = {
+  "id": 9999,
+  "name": "product x",
+}
+
 module.exports = {
   allProductsMock,
   productByIdMock,
+  insertedProductMock,
 };

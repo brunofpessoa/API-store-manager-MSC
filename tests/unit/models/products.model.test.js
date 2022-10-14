@@ -5,7 +5,7 @@ const connection = require('../../../src/models/connection');
 const { productsModel } = require('../../../src/models');
 const { allProductsMock, productByIdMock } = require('../mocks/products');
 
-describe('Testes do módulo de produtos', function () {
+describe('Testes do model de produtos', function () {
   afterEach(sinon.restore);
 
   describe('Testes da função findAll', function () {

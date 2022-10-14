@@ -3,7 +3,7 @@ const { expect } = require('chai');
 
 const connection = require('../../../src/models/connection');
 const { productsModel } = require('../../../src/models');
-const { allProductsMock, productByIdMock } = require('../mocks/products');
+const { allProductsMock, productByIdMock, updateResultMock } = require('../mocks/products');
 
 describe('Testes do model de produtos', function () {
   afterEach(sinon.restore);
@@ -32,6 +32,16 @@ describe('Testes do model de produtos', function () {
       const productName = 'product x';
       const insertId = await productsModel.insert(productName);
       expect(insertId).to.be.deep.equal(insertIdMock);
+    });
+  });
+
+  describe('Testes da função update', function () {
+    it('deve retornar um array com detalhes da atualização', async function () {
+      sinon.stub(connection, 'execute').resolves(updateResultMock);
+      const id = 1;
+      const name = 'product x';
+      const result = await productsModel.update(id, name);
+      expect(result).to.be.equal(updateResultMock);
     });
   });
 });

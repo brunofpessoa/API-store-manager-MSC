@@ -34,7 +34,7 @@ const updateProduct = async (productId, name) => {
 
   const result = await productsModel.update(productId, name);
 
-  if (!result) {
+  if (result[0].changedRows !== 1) {
     return { type: 'INTERNAL_ERROR', message: 'Something went wrong' };
   }
 

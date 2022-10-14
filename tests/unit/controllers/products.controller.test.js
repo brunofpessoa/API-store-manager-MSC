@@ -112,4 +112,37 @@ describe('Testes do controller de produtos', function () {
       expect(res.json).to.have.been.calledWith({ message });
     });
   });
+
+  describe('Testes da função updateProduct', function () {
+    it('deve responder o request com status 200 e o produto atualizado', async function () {
+      const [id, name] = [1, 'product x'];
+      const req = { params: { id }, body: { name } };
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(productsService, 'updateProduct')
+        .resolves({ type: null, message: name })
+    
+      await productsController.updateProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith({ id, name });
+    });
+
+    it('deve responder com um erro caso o serviço de produtos não funcione', async function () {
+      const [id, name] = [1, 'product x'];
+      const req = { params: { id }, body: { name } };
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      const errorMessage = 'Something went wrong';
+      sinon.stub(productsService, 'updateProduct')
+        .resolves({ type: 'INTERNAL_ERROR', message: errorMessage })
+    
+      await productsController.updateProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(500);
+      expect(res.json).to.have.been.calledWith({ message: errorMessage });
+    });
+  });
 });

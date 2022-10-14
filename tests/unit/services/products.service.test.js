@@ -70,4 +70,37 @@ describe('Testes do serviço de produtos', function () {
       expect(result).to.be.deep.equal(expectedValue);
     });
   });
+
+  describe('Testes da função updateProduct', function () {
+    it('deve retornar um objeto com mensagem de erro', async function () {
+      sinon.stub(productsModel, 'findById').resolves(undefined);
+      const expectedValue = { type: 'NOT_FOUND', message: 'Product not found' };
+
+      const result = await productsService.updateProduct();
+
+      expect(result).to.be.deep.equal(expectedValue);
+    });
+
+    it('deve retornar um objeto com mensagem de erro', async function () {
+      sinon.stub(productsModel, 'findById').resolves(productByIdMock);
+      sinon.stub(productsModel, 'update').resolves([{ changedRows: 0 }]);
+      const expectedValue = { type: 'INTERNAL_ERROR', message: 'Something went wrong' };
+
+      const result = await productsService.updateProduct();
+
+      expect(result).to.be.deep.equal(expectedValue);
+    });
+  
+    it('deve retornar corretamento um objeto com o resultado', async function () {
+      sinon.stub(productsModel, 'findById').resolves(productByIdMock);
+      sinon.stub(productsModel, 'update').resolves([{ changedRows: 1 }]);
+      const id = 1;
+      const name = 'new product name';
+      const expectedValue = { type: null, message: name };
+
+      const result = await productsService.updateProduct(id, name);
+
+      expect(result).to.be.deep.equal(expectedValue);
+    });
+  });
 });

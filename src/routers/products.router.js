@@ -9,5 +9,6 @@ router.get('/', productsController.listProducts);
 router.get('/:id', productsController.listProductById);
 router.post('/', validateProductName, productsController.registerProduct);
 router.put('/:id', validateProductName, productsController.updateProduct);
+router.delete('/:id', productsController.deleteProduct);
 
 module.exports = router;

@@ -16,7 +16,7 @@ const registerSales = async (sales) => {
 
 const getAllSales = async () => {
   const result = await salesModel.findAll();
-  if (!result) {
+  if (result.length < 1) {
     return { type: 'INTERNAL_ERROR', message: 'Something went wrong' };
   }
   return { type: null, message: result };
@@ -25,7 +25,7 @@ const getAllSales = async () => {
 const getSaleById = async (id) => {
   const result = await salesModel.findById(id);
   if (result.length < 1) {
-    return { type: 'NOT_FOUND', message: 'Product not found' };
+    return { type: 'NOT_FOUND', message: 'Sale not found' };
   }
   return { type: null, message: result };
 };

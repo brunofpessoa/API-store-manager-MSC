@@ -1,5 +1,5 @@
 const { salesSchema } = require('../controllers/validations/schemas');
-const { productsService, salesService } = require('../services');
+const { productsService } = require('../services');
 
 function CustomError(httpStatus, message) {
   this.errors = [{ httpStatus, message }];
@@ -37,25 +37,6 @@ const validateSales = async (req, res, next) => {
   return next();
 };
 
-const validateSaleId = async (saleId) => {
-  const { type } = await salesService.getSaleById(saleId);
-  if (type) {
-    throw new CustomError(404, 'Sale not found');
-  }
-};
-
-const validateListSale = async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    await validateSaleId(id);
-  } catch ({ errors }) {
-    const { httpStatus, message } = errors[0];
-    return res.status(httpStatus).json({ message });
-  }
-  next();
-};
-
 module.exports = {
   validateSales,
-  validateListSale,
 };

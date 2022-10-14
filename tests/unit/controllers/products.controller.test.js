@@ -111,31 +111,5 @@ describe('Testes do controller de produtos', function () {
       expect(res.status).to.have.been.calledWith(500);
       expect(res.json).to.have.been.calledWith({ message });
     });
-
-    it('deve responder o request com status 404 e um erro de validação', async function () {
-      const errorMessage = { message: '"name" is required' }
-      const req = { body: {} };
-      const res = {};
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
-
-      await productsController.registerProduct(req, res);
-
-      expect(res.status).to.have.been.calledWith(400);
-      expect(res.json).to.have.been.calledWith(errorMessage);
-    });
-
-    it('deve responder o request com status 422 e um erro de validação', async function () {
-      const errorMessage = { message: '"name" length must be at least 5 characters long' }
-      const req = { body: { name: 'shrt'} };
-      const res = {};
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
-
-      await productsController.registerProduct(req, res);
-
-      expect(res.status).to.have.been.calledWith(422);
-      expect(res.json).to.have.been.calledWith(errorMessage);
-    });
   });
 });

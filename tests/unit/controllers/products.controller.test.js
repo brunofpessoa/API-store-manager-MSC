@@ -146,7 +146,7 @@ describe('Testes do controller de produtos', function () {
     });
   });
 
-    describe('Testes da função deleteProduct', function () {
+  describe('Testes da função deleteProduct', function () {
     it('deve responder o request com status 204 e nenhum retorno', async function () {
       const id = 1;
       const req = { params: { id } };

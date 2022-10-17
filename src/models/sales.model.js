@@ -48,6 +48,7 @@ const deleteSale = async (id) => {
     WHERE sales.id = (?) AND sales_products.sale_id = (?);
     `, [id, id],
   );
+  console.log(result);
   return result;
 };
 

@@ -115,4 +115,37 @@ describe('Testes do controller de vendas', function () {
       expect(res.json).to.have.been.calledWith(errorMessage);
     });
   });
+
+  describe('Testes da função deleteSale', function () {
+    it('deve responder o request com status 204 e nenhum retorno', async function () {
+      const id = 1;
+      const req = { params: { id } };
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns();
+      sinon.stub(salesService, 'deleteSale')
+        .resolves({ type: null, message: null })
+    
+      await salesController.deleteSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+      expect(res.end).to.have.been.calledOnce;
+    });
+
+    it('deve responder com um erro de venda não encontrado', async function () {
+      const id = 1;
+      const req = { params: { id } };
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      const errorMessage = 'Sale not found';
+      sinon.stub(salesService, 'deleteSale')
+        .resolves({ type: 'NOT_FOUND', message: errorMessage })
+    
+      await salesController.deleteSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: errorMessage });
+    });
+  });
 });

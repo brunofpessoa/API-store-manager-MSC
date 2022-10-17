@@ -9,7 +9,8 @@ const {
   allSalesDbMock,
   saleByIdDbMock,
   saleByIdMock,
-  deleteResultMock
+  deleteResultMock,
+  updateResultMock
 } = require('../mocks/sales');
 
 describe('Testes do model de vendas', function () {
@@ -47,6 +48,23 @@ describe('Testes do model de vendas', function () {
       const id = 1;
       const result = await salesModel.deleteSale(id);
       expect(result).to.be.equal(deleteResultMock);
+    });
+  });
+
+  describe('Testes da função update', function () {
+    it('deve retornar um array com detalhes da atualização', async function () {
+      sinon.stub(connection, 'execute').resolves(updateResultMock);
+      const idMock = 1;
+      const previousValues = [{
+        productId: 1,
+        quantity: 11,
+      }];
+      const newValues = [{
+        productId: 1,
+        quantity: 1,
+      }];
+      const result = await salesModel.update(idMock, previousValues, newValues);
+      expect(result).to.be.equal(updateResultMock);
     });
   });
 });

@@ -9,7 +9,8 @@ const {
   allSalesMock,
   saleByIdMock,
   saleByIdDbMock,
-  deleteResultMock
+  deleteResultMock,
+  updatedSaleMock
 } = require('../mocks/sales');
 
 describe('Testes do serviço de vendas', function () { 
@@ -108,6 +109,29 @@ describe('Testes do serviço de vendas', function () {
       const expectedValue = { type: null, message: null };
 
       const result = await salesService.deleteSale(id);
+
+      expect(result).to.be.deep.equal(expectedValue);
+    });
+  });
+
+  describe('Testes da função update', function () {
+    it('deve retornar um objeto com mensagem de erro', async function () {
+      sinon.stub(salesModel, 'findById').resolves([]);
+      const expectedValue = { type: 'NOT_FOUND', message: 'Sale not found' };
+
+      const result = await salesService.update();
+
+      expect(result).to.be.deep.equal(expectedValue);
+    });
+  
+    it('deve retornar corretamento um objeto com o resultado', async function () {
+      sinon.stub(salesModel, 'findById').resolves(updatedSaleMock);
+      sinon.stub(salesModel, 'update').resolves([{ changedRows: 1 }]);
+      const id = 1;
+      const newValues = updatedSaleMock;
+      const expectedValue = { type: null, message: updatedSaleMock };
+
+      const result = await salesService.update(id, newValues);
 
       expect(result).to.be.deep.equal(expectedValue);
     });

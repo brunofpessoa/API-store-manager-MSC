@@ -129,6 +129,30 @@ const deleteResultMock = [
   undefined
 ];
 
+const updateResultMock = [
+  {
+    fieldCount: 0,
+    affectedRows: 1,
+    insertId: 0,
+    info: 'Rows matched: 1  Changed: 1  Warnings: 0',
+    serverStatus: 2,
+    warningStatus: 0,
+    changedRows: 1
+  },
+  undefined
+];
+
+const updatedSaleMock = [
+  {
+    "productId": 1,
+    "quantity": 10
+  },
+  {
+    "productId": 2,
+    "quantity": 50
+  }
+];
+
 
 module.exports = {
   salesMock,
@@ -142,4 +166,6 @@ module.exports = {
   allSalesDbMock,
   saleByIdDbMock,
   deleteResultMock,
+  updateResultMock,
+  updatedSaleMock,
 }

@@ -7,7 +7,7 @@ const { expect } = chai;
 
 const { salesService } = require('../../../src/services');
 const { salesController } = require('../../../src/controllers');
-const { salesMock, salesSuccessResposeMock, salesWithoutProductId, allSalesMock, saleByIdMock } = require('../mocks/sales');
+const { salesMock, salesSuccessResposeMock, salesWithoutProductId, allSalesMock, saleByIdMock, updatedSaleMock } = require('../mocks/sales');
 
 describe('Testes do controller de vendas', function () {
   afterEach(sinon.restore);
@@ -143,6 +143,42 @@ describe('Testes do controller de vendas', function () {
         .resolves({ type: 'NOT_FOUND', message: errorMessage })
     
       await salesController.deleteSale(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: errorMessage });
+    });
+  });
+
+  describe('Testes da função update', function () {
+    it('deve responder o request com status 200 e a venda atualizada', async function () {
+      const id = 1;
+      const req = { params: { id }, body: updatedSaleMock };
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(salesService, 'update')
+        .resolves({ type: null, message: updatedSaleMock })
+      const expectedValue = {
+        saleId: id,
+        itemsUpdated: updatedSaleMock,
+      };
+    
+      await salesController.update(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(expectedValue);
+    });
+
+    it('deve responder com um erro de venda não encontrada', async function () {
+      const req = { params: { id: 9999 }, body: updatedSaleMock };
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      const errorMessage = 'Sale not found';
+      sinon.stub(salesService, 'update')
+        .resolves({ type: 'NOT_FOUND', message: errorMessage })
+    
+      await salesController.update(req, res);
 
       expect(res.status).to.have.been.calledWith(404);
       expect(res.json).to.have.been.calledWith({ message: errorMessage });

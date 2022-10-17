@@ -32,9 +32,22 @@ const updateResultMock = [
   undefined
 ];
 
+const deleteResultMock = [
+  {
+    fieldCount: 0,
+    affectedRows: 1,
+    insertId: 0,
+    info: '',
+    serverStatus: 2,
+    warningStatus: 0
+  },
+  undefined
+];
+
 module.exports = {
   allProductsMock,
   productByIdMock,
   insertedProductMock,
   updateResultMock,
+  deleteResultMock,
 };

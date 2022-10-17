@@ -3,7 +3,12 @@ const { expect } = require('chai');
 
 const { productsModel } = require('../../../src/models');
 const { productsService } = require('../../../src/services');
-const { allProductsMock, productByIdMock, insertedProductMock } = require('../mocks/products');
+const {
+  allProductsMock,
+  productByIdMock,
+  insertedProductMock,
+  deleteResultMock
+} = require('../mocks/products');
 
 describe('Testes do serviço de produtos', function () { 
   afterEach(sinon.restore);
@@ -99,6 +104,40 @@ describe('Testes do serviço de produtos', function () {
       const expectedValue = { type: null, message: name };
 
       const result = await productsService.updateProduct(id, name);
+
+      expect(result).to.be.deep.equal(expectedValue);
+    });
+  });
+
+  describe('Testes da função deleteProduct', function () {
+    it('deve retornar um objeto com mensagem de erro', async function () {
+      sinon.stub(productsModel, 'findById').resolves(undefined);
+      const expectedValue = { type: 'NOT_FOUND', message: 'Product not found' };
+
+      const id = 9999;
+
+      const result = await productsService.deleteProduct(id);
+
+      expect(result).to.be.deep.equal(expectedValue);
+    });
+
+    it('deve retornar um objeto com mensagem de erro', async function () {
+      sinon.stub(productsModel, 'findById').resolves(productByIdMock);
+      sinon.stub(productsModel, 'deleteProduct').resolves([{ affectedRows: 0 }]);
+      const expectedValue = { type: 'INTERNAL_ERROR', message: 'Something went wrong' };
+
+      const result = await productsService.deleteProduct();
+
+      expect(result).to.be.deep.equal(expectedValue);
+    });
+  
+    it('deve retornar um objeto com os valores "null"', async function () {
+      sinon.stub(productsModel, 'findById').resolves(productByIdMock);
+      sinon.stub(productsModel, 'deleteProduct').resolves(deleteResultMock);
+      const id = 1;
+      const expectedValue = { type: null, message: null };
+
+      const result = await productsService.deleteProduct(id);
 
       expect(result).to.be.deep.equal(expectedValue);
     });

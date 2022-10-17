@@ -75,11 +75,12 @@ describe('Testes das validações de registro de vendas', function () {
   });
 
   it('deve chamar a callback "next"', async function () {
-    req = { body: salesMock };
+    const req = { body: [{ productId: 1, quantity: 1 }] };
     const res = {};
     res.status = sinon.stub().returns(res);
     res.json = sinon.stub().returns();
     const next = sinon.stub().returns();
+    sinon.stub(productsService, 'getProductById').resolves({ type: null })
 
     await validateSales(req, res, next);
 

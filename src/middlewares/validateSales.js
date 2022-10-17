@@ -16,25 +16,19 @@ const validateProductId = async (productId) => {
 const validateSales = async (req, res, next) => {
   const sales = req.body;
   try {
-    const promises = sales.map(async (sale) => { 
-      const { productId, quantity } = sale;
+    const promises = sales.map(async ({ productId, quantity }) => { 
       const error = await salesSchema.validate({ productId, quantity })
         .catch((err) => err);
         
-      if (error.errors) {
-        throw error;
-      }
-
+      if (error.errors) { throw error; }
       await validateProductId(productId);
     });
-
     await Promise.all(promises);
   } catch ({ errors }) {
     const { httpStatus, message } = errors[0];
     return res.status(httpStatus).json({ message });
   }
-
-  return next();
+  next();
 };
 
 module.exports = {

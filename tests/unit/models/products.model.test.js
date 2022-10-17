@@ -3,7 +3,7 @@ const { expect } = require('chai');
 
 const connection = require('../../../src/models/connection');
 const { productsModel } = require('../../../src/models');
-const { allProductsMock, productByIdMock, updateResultMock } = require('../mocks/products');
+const { allProductsMock, productByIdMock, updateResultMock, deleteResultMock } = require('../mocks/products');
 
 describe('Testes do model de produtos', function () {
   afterEach(sinon.restore);
@@ -42,6 +42,15 @@ describe('Testes do model de produtos', function () {
       const name = 'product x';
       const result = await productsModel.update(id, name);
       expect(result).to.be.equal(updateResultMock);
+    });
+  });
+
+  describe('Testes da função deleteProduct', function () {
+    it('deve retornar um array com detalhes da remoção', async function () {
+      sinon.stub(connection, 'execute').resolves(deleteResultMock);
+      const id = 1;
+      const result = await productsModel.deleteProduct(id);
+      expect(result).to.be.equal(deleteResultMock);
     });
   });
 });

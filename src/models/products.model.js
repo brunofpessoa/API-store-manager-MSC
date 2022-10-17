@@ -34,7 +34,6 @@ const deleteProduct = async (productId) => {
   const result = await connection.execute(
     'DELETE FROM StoreManager.products WHERE id = ?', [productId],
   );
-  console.log(result);
   return result;
 };
 

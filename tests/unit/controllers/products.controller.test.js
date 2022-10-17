@@ -145,4 +145,37 @@ describe('Testes do controller de produtos', function () {
       expect(res.json).to.have.been.calledWith({ message: errorMessage });
     });
   });
+
+    describe('Testes da função deleteProduct', function () {
+    it('deve responder o request com status 204 e nenhum retorno', async function () {
+      const id = 1;
+      const req = { params: { id } };
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.end = sinon.stub().returns();
+      sinon.stub(productsService, 'deleteProduct')
+        .resolves({ type: null, message: null })
+    
+      await productsController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(204);
+      expect(res.end).to.have.been.calledOnce;
+    });
+
+    it('deve responder com um erro de produto não encontrado', async function () {
+      const id = 1;
+      const req = { params: { id } };
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      const errorMessage = 'Product not found';
+      sinon.stub(productsService, 'deleteProduct')
+        .resolves({ type: 'NOT_FOUND', message: errorMessage })
+    
+      await productsController.deleteProduct(req, res);
+
+      expect(res.status).to.have.been.calledWith(404);
+      expect(res.json).to.have.been.calledWith({ message: errorMessage });
+    });
+  });
 });

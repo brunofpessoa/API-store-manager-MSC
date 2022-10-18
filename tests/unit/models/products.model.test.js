@@ -53,4 +53,14 @@ describe('Testes do model de produtos', function () {
       expect(result).to.be.equal(deleteResultMock);
     });
   });
+
+  describe('Testes da função searchByQuery', function () {
+    it('deve retornar todos os produtos que correspondem à pesquisa', async function () {
+      const expectedValue = [{ id: 1, name: 'Martelo de Thor' }];
+      sinon.stub(connection, 'execute').resolves([expectedValue]);
+      const query = 'martelo';
+      const result = await productsModel.searchByQuery(query);
+      expect(result).to.be.deep.equal(expectedValue);
+    });
+  });
 });

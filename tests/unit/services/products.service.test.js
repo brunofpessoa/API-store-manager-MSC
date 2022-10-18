@@ -142,4 +142,28 @@ describe('Testes do serviço de produtos', function () {
       expect(result).to.be.deep.equal(expectedValue);
     });
   });
+
+  describe('Testes da função searchByQuery', function () {
+    it('deve retornar todos os produtos caso nenhum produto coincida com a query', async function () {
+      sinon.stub(productsModel, 'searchByQuery').resolves([]);
+      sinon.stub(productsModel, 'findAll').resolves(allProductsMock);
+      const expectedValue = { type: null, message: allProductsMock };
+      const query = 'testQuery';
+
+      const result = await productsService.searchByQuery(query);
+
+      expect(result).to.be.deep.equal(expectedValue);
+    });
+  
+    it('deve retornar um objeto com o produto encontrado pela query', async function () {
+      const selectedProduct = [{ id: 1, name: 'Martelo de Thor' }];
+      sinon.stub(productsModel, 'searchByQuery').resolves(selectedProduct);
+      const expectedValue = { type: null, message: selectedProduct };
+      const query = 'martelo';
+
+      const result = await productsService.searchByQuery(query);
+
+      expect(result).to.be.deep.equal(expectedValue);
+    });
+  });
 });

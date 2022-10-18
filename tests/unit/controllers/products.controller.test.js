@@ -178,4 +178,23 @@ describe('Testes do controller de produtos', function () {
       expect(res.json).to.have.been.calledWith({ message: errorMessage });
     });
   });
+
+  describe('Testes da função searchByQuery', function () {
+    it('deve responder o request com status 200 e um array com o produto', async function () {
+      const productMock = [{ id: 1, name: 'Martelo de Thor' }];
+      const searchByQueryMock = { type: null, message: productMock };
+      sinon.stub(productsService, 'searchByQuery').resolves(searchByQueryMock);
+
+      const req = { query: { q: 'martelo' } };
+      const res = {};
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      await productsController.searchByQuery(req, res);
+
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(productMock);
+    });
+  });
 });

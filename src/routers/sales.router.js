@@ -4,10 +4,10 @@ const { validateSales } = require('../middlewares/validateSales');
 
 const router = express.Router();
 
-router.post('/', validateSales, salesController.registerSales);
 router.get('/', salesController.listSales);
 router.get('/:id', salesController.listSaleById);
-router.delete('/:id', salesController.deleteSale);
+router.post('/', validateSales, salesController.registerSales);
 router.put('/:id', validateSales, salesController.update);
+router.delete('/:id', salesController.deleteSale);
 
 module.exports = router;

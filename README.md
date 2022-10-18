@@ -150,6 +150,9 @@ Siga os passos a seguir para ter a aplicação rodando em sua máquina.
   ```
 2. Instalando as dependências
   ```sh
+    cd API-store-manager-MSC
+  ```
+  ```sh
     npm install
   ```
 3. Subindo os containers
@@ -159,13 +162,12 @@ No diretório raiz do projeto execute o seguinte comando para inicializar os con
   ```
 4. Criando e populando o banco de dados
   ```sh
+    docker exec -it store_manager bash
+  ```
+  ```sh
     npm run populate
   ```
 5. Inicializando o servidor
-Acesse o terminal do container node
-  ```sh
-    docker exec -it store_manager bash
-  ```
   Inicie o servidor
   ``` sh
     npm start

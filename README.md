@@ -133,7 +133,7 @@ Através dessa API é possível criar, ler, atualizar e deletar informações de
 </details>
 
 ## Técnologias utilizadas
-- Desenvolvido com: __NodeJs__
+- Desenvolvido com: __NodeJs__, __Express__
 - Banco de dados: __MySQL__
 - Testes: __Sinon__, __Mocha__, __Chai__
 - Validações: __Yup__

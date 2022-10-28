@@ -1,7 +1,7 @@
 # Projeto API Store Manager - Arquitetura MSC
 
 ## Contexto
-Está é uma API para gerenciamento de produtos e vendas, foi desenvolvida durante meus estudos de Back-end na __Trybe__ com o objetivo de consolidar os estudos de __Arquitetura de Software__. A API foi desenvolvida com __NodeJs__ e utiliza a arquitetura MSC: Model, Service e Controller. Os testes da aplicação utiliza as bibliotecas __Sinon, Mocha e Chai__.
+Esta é uma API para gerenciamento de produtos e vendas, foi desenvolvida durante meus estudos de Back-end na __Trybe__ com o objetivo de consolidar os estudos de __Arquitetura de Software__. A API foi desenvolvida com __NodeJs__ e utiliza a arquitetura MSC: Model, Service e Controller. Os testes da aplicação utiliza as bibliotecas __Sinon, Mocha e Chai__.
 
 Todos os códigos contidos nos diretórios __src__ e __tests__ foram desenvolvidos por mim, com exceção do arquivo dbUtils.js, que foi fornecido pela __Trybe__, utilizado para popular o banco de dados.
 
@@ -27,7 +27,7 @@ Todos os códigos contidos nos diretórios __src__ e __tests__ foram desenvolvid
 │   │      connection.js
 │   │      products.model.js
 │   │      sales.model.js
-│   ├───servicess
+│   ├───services
 │   │      index.js
 │   │      products.service.js
 │   │      sales.service.js
